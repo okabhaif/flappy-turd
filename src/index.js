@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
 import PlayScene from './scenes/PlayScene';
+import MenuScene from './scenes/MenuScene';
+import PreloadScene from './scenes/PreloadScene';
+
 
 const width = 800;
 const height = 600;
@@ -11,6 +14,10 @@ const shared_config = {
   startPosition
 }
 
+const scenes = [PreloadScene, MenuScene, PlayScene];
+const createScene = (scene) => new scene(shared_config);
+const initScenes = () => scenes.map(createScene);
+
 const config = {
   type: Phaser.AUTO,
   ...shared_config,
@@ -20,7 +27,7 @@ const config = {
       debug: true,
     }
   },
-  scene: [new PlayScene(shared_config)]
+  scene: initScenes(),
 }
 
 new Phaser.Game(config);
