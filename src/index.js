@@ -24,11 +24,11 @@ const initScenes = () => scenes.map(createScene);
 const config = {
   type: Phaser.AUTO,
   ...shared_config,
-  pixelArt: true, // prevents images from bluring when scaling
+  pixelArt: true, 
   physics: {
     default: 'arcade',
     arcade: {
-      debug: true,
+      // debug: true,
     }
   },
   scene: initScenes(),

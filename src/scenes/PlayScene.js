@@ -51,8 +51,8 @@ class PlayScene extends BaseScene {
         this.anims.create({
           key: 'fly',
           frames: this.anims.generateFrameNumbers('bird', {start: 8, end: 15}),
-          frameRate: 8, //plays 8 frames p sec
-          repeat: -1, //repeat infinite times
+          frameRate: 8, 
+          repeat: -1, 
   
         })
         this.bird.play('fly');
@@ -71,7 +71,7 @@ class PlayScene extends BaseScene {
 
         this.bird.setBodySize(this.bird.width, this.bird.height - 10);
         this.bird.body.gravity.y = 600;
-        this.bird.setCollideWorldBounds(true); //bird collides with top and bottom
+        this.bird.setCollideWorldBounds(true);
     }
 
     createPipes(){
@@ -114,7 +114,7 @@ class PlayScene extends BaseScene {
             this.isPaused = true;
             this.physics.pause();
             this.scene.pause();
-            this.scene.launch('PauseScene'); //launch keeps game mechanics in place whilst displaying a diff screen in parallel
+            this.scene.launch('PauseScene'); 
         })
     }
     handleInputs(){
@@ -172,7 +172,6 @@ class PlayScene extends BaseScene {
         const newPipes = [];
         this.pipes.getChildren().forEach(pipe => {
           if(pipe.getBounds().right <= 0) {
-            //recycle the pipe when it hits 0 e.g. the pipe moves out of view 
             newPipes.push(pipe);
             if(newPipes.length === 2){
               this.placePipe(...newPipes);
