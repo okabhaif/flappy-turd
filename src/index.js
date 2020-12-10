@@ -7,7 +7,7 @@ import PauseScene from './scenes/PauseScene';
 
 
 
-const width = 800;
+const width = 400;
 const height = 600;
 const startPosition = {x: width * 0.1, y: height / 2 };
 
@@ -24,6 +24,7 @@ const initScenes = () => scenes.map(createScene);
 const config = {
   type: Phaser.AUTO,
   ...shared_config,
+  pixelArt: true, // prevents images from bluring when scaling
   physics: {
     default: 'arcade',
     arcade: {
