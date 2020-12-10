@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import PlayScene from './scenes/PlayScene';
 import MenuScene from './scenes/MenuScene';
 import PreloadScene from './scenes/PreloadScene';
+import ScoreScene from './scenes/ScoreScene';
+
 
 
 const width = 800;
@@ -14,7 +16,7 @@ const shared_config = {
   startPosition
 }
 
-const scenes = [PreloadScene, MenuScene, PlayScene];
+const scenes = [PreloadScene, MenuScene, ScoreScene, PlayScene];
 const createScene = (scene) => new scene(shared_config);
 const initScenes = () => scenes.map(createScene);
 
