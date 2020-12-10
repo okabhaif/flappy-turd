@@ -3,6 +3,7 @@ import PlayScene from './scenes/PlayScene';
 import MenuScene from './scenes/MenuScene';
 import PreloadScene from './scenes/PreloadScene';
 import ScoreScene from './scenes/ScoreScene';
+import PauseScene from './scenes/PauseScene';
 
 
 
@@ -16,7 +17,7 @@ const shared_config = {
   startPosition
 }
 
-const scenes = [PreloadScene, MenuScene, ScoreScene, PlayScene];
+const scenes = [PreloadScene, MenuScene, ScoreScene, PlayScene, PauseScene];
 const createScene = (scene) => new scene(shared_config);
 const initScenes = () => scenes.map(createScene);
 

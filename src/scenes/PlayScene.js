@@ -7,12 +7,14 @@ class PlayScene extends BaseScene {
     constructor(config) {
         super('PlayScene', config);
         this.bird = null;
+        this.isPaused = false;
+
         this.pipes = null;
         this.pipeHorizontalDistance = 0;
         this.pipeVerticalDistanceRange = [150, 250];
         this.pipeHorizontalDistanceRange = [450, 500];
+        
         this.flapVelocity = 300;
-
         this.score = 0;
         this.scoreText = '';
         
@@ -26,6 +28,7 @@ class PlayScene extends BaseScene {
         this.createScore();
         this.createPause();
         this.handleInputs();
+        this.listenToEvents();
     }
 
     update(){
@@ -37,7 +40,6 @@ class PlayScene extends BaseScene {
         this.bird = this.physics.add.sprite(this.config.startPosition.x, this.config.startPosition.y, 'bird').setOrigin(0);
         this.bird.body.gravity.y = 600;
         this.bird.setCollideWorldBounds(true); //bird collides with top and bottom
-
     }
 
     createPipes(){
@@ -70,19 +72,50 @@ class PlayScene extends BaseScene {
     }
 
     createPause(){
+        this.isPaused = false;
         const pauseButton = this.add.image(this.config.width - 10, this.config.height - 10, 'pause')
         .setInteractive()
         .setScale(2)
         .setOrigin(1);
 
         pauseButton.on('pointerdown', ()=>{
+            this.isPaused = true;
             this.physics.pause();
             this.scene.pause();
+            this.scene.launch('PauseScene'); //launch keeps game mechanics in place whilst displaying a diff screen in parallel
         })
     }
     handleInputs(){
         this.input.on('pointerdown', this.flap, this);
         this.input.keyboard.on('keydown_SPACE', this.flap, this);
+    }
+
+    countdown(){
+      this.initialTime--;
+      this.countdownText.setText('Fly in: ' + this.initialTime);
+
+      if(this.initialTime <= 0) {
+        this.isPaused = false;
+        this.countdownText.setText('');
+        this.physics.resume();
+        this.timedEvent.remove();
+      }
+    }
+
+    listenToEvents(){
+      if(this.pauseEvent) { return; }
+
+      this.pauseEvent = this.events.on('resume', () => {
+        this.initialTime  = 3;
+        this.countdownText = this.add.text(...this.screenCenter, 'Fly in: ' + this.initialTime, this.fontOptions)
+        .setOrigin(0.5);
+        this.timedEvent = this.time.addEvent({
+          delay: 1000,
+          callback: this.countdown,
+          callbackScope: this,
+          loop: true
+        })
+      })
     }
 
     checkGameStatus(){
@@ -150,6 +183,8 @@ class PlayScene extends BaseScene {
       }
       
       flap(){
+        if(this.isPaused) { return; }
+
         this.bird.body.velocity.y = -this.flapVelocity
       }
 
